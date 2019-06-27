@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="tambolaNumber" type="com.sample.tambolanumberpicker.TambolaNumber"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:padding="2dp"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/number"
+                android:layout_width="match_parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_height="0dp"
+                android:text="@{tambolaNumber.number}"
+                android:background="@drawable/number_selector"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                app:isCalled="@{tambolaNumber.isCalled}"
+                android:textSize="16sp"
+                app:autoSizeTextType="uniform"
+                app:layout_constraintDimensionRatio="1:1"
+                app:autoSizeMaxTextSize="16sp"
+                app:autoSizeMinTextSize="12sp"
+                android:fontFamily="@font/acme"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
