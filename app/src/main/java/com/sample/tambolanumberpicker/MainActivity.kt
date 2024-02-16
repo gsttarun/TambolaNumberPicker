@@ -5,19 +5,22 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import com.sample.tambolanumberpicker.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 import kotlin.random.Random
 
 class MainActivity : BaseActivityWithJob() {
 
+    private lateinit var binding: ActivityMainBinding
     private lateinit var numberAdapter: NumberAdapter
     private lateinit var currentNumberAdapter: CurrentNumberAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val numberList = MutableList(90) {
             TambolaNumber((it + 1).toString())
@@ -26,31 +29,31 @@ class MainActivity : BaseActivityWithJob() {
         numberAdapter = NumberAdapter(numberList)
         currentNumberAdapter = CurrentNumberAdapter()
 
-        numberHistoryRecyclerView.layoutManager = GridLayoutManager(this, 10, RecyclerView.VERTICAL, false)
-        numberHistoryRecyclerView.adapter = numberAdapter
+        binding.numberHistoryRecyclerView.layoutManager = GridLayoutManager(this, 10, RecyclerView.VERTICAL, false)
+        binding.numberHistoryRecyclerView.adapter = numberAdapter
 
-        currentNumberRecyclerView.adapter = currentNumberAdapter
+        binding.currentNumberRecyclerView.adapter = currentNumberAdapter
 
-        nextButton.setOnClickListener {
-            resetButton.visibility = View.VISIBLE
-            nextButton.text = "next"
+        binding.nextButton.setOnClickListener {
+            binding.resetButton.visibility = View.VISIBLE
+            binding.nextButton.text = "next"
             val remainingNumbers = numberAdapter.remainingNumbers()
             val size = remainingNumbers.size
             val nextInt: String = remainingNumbers[Random.nextInt(0, size)].number
             currentNumberAdapter.addNumber(nextInt)
             doWithDelayOnMainThread(300) {
-                currentNumberRecyclerView.smoothScrollToPosition(currentNumberAdapter.itemCount - 1)
+                binding.currentNumberRecyclerView.smoothScrollToPosition(currentNumberAdapter.itemCount - 1)
             }
             numberAdapter.setCalledFor(nextInt)
             if (size == 1)
-                nextButton.visibility = View.GONE
+                binding.nextButton.visibility = View.GONE
         }
 
-        resetButton.setOnClickListener {
+        binding.resetButton.setOnClickListener {
             reset()
-            nextButton.visibility = View.VISIBLE
-            nextButton.text = "start"
-            resetButton.visibility = View.GONE
+            binding.nextButton.visibility = View.VISIBLE
+            binding.nextButton.text = "start"
+            binding.resetButton.visibility = View.GONE
         }
     }
 
